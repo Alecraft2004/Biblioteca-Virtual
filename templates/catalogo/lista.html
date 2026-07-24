@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block titulo %}Catálogo{% endblock %}
+{% block contenido %}
+<h1>Catálogo de libros</h1>
+
+<form method="get" class="buscador">
+    <input type="text" name="q" placeholder="Buscar por título o autor" value="{{ query }}">
+    <select name="nivel">
+        <option value="">Todos los niveles</option>
+        {% for valor, etiqueta in niveles %}
+            <option value="{{ valor }}" {% if valor == nivel %}selected{% endif %}>{{ etiqueta }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Buscar</button>
+</form>
+
+{% if user.es_bibliotecario %}
+    <p><a href="{% url 'catalogo:crear' %}" class="btn">+ Cargar nuevo libro</a></p>
+{% endif %}
+
+<div class="grid-libros">
+    {% for libro in libros %}
+        <div class="tarjeta-libro">
+            <div class="portada-libro">
+                {% if libro.portada %}
+                    <img src="{{ libro.portada.url }}" alt="Portada de {{ libro.titulo }}">
+                {% else %}
+                    <div class="portada-placeholder">📖</div>
+                {% endif %}
+                <span class="badge-nivel">{{ libro.get_nivel_display }}</span>
+            </div>
+            <div class="info-libro">
+                <h3>{{ libro.titulo }}</h3>
+                <p class="autor-libro">{{ libro.autor }}</p>
+                <div class="acciones-libro">
+                    <a href="{% url 'prestamos:solicitar' libro.id %}" class="btn">Solicitar</a>
+                    {% if user.es_bibliotecario %}
+                        <a href="{% url 'catalogo:editar' libro.id %}" class="btn btn-secundario">Editar</a>
+                        <a href="{% url 'catalogo:eliminar' libro.id %}" class="btn btn-peligro">Eliminar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Todavía no hay libros cargados.</p>
+    {% endfor %}
+</div>
+{% endblock %}

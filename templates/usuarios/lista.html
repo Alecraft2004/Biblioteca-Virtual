@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block titulo %}Usuarios{% endblock %}
+{% block contenido %}
+<h1>Usuarios del sistema</h1>
+<p><a href="{% url 'usuarios:crear' %}" class="btn">+ Nuevo usuario</a></p>
+
+<ul class="lista-tarjetas">
+    {% for u in usuarios %}
+        <li>
+            <div class="info">
+                <strong>{{ u.get_full_name|default:u.username }}</strong> — {{ u.email }}
+                <br>
+                <span class="etiqueta-rol">{{ u.get_rol_display }}</span>
+                {% if u.suspendido %}<span class="etiqueta-suspendido">Suspendido</span>{% endif %}
+            </div>
+            <div class="acciones">
+                <a href="{% url 'usuarios:editar' u.id %}" class="btn btn-secundario">Editar</a>
+                {% if u != request.user %}
+                    <a href="{% url 'usuarios:eliminar' u.id %}" class="btn btn-peligro">Eliminar</a>
+                {% endif %}
+            </div>
+        </li>
+    {% empty %}
+        <li>No hay usuarios registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

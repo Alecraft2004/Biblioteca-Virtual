@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ accion }} usuario{% endblock %}
+{% block body_class %}pagina-formulario{% endblock %}
+{% block contenido %}
+<div class="tarjeta-formulario" style="max-width: 520px;">
+    <h1>{{ accion }} usuario</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="acciones-formulario">
+            <button type="submit">Guardar</button>
+            <a href="{% url 'usuarios:lista' %}" class="btn btn-secundario">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

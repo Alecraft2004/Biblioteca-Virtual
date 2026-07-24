@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block titulo %}Iniciar sesión{% endblock %}
+{% block navbar %}{% endblock %}
+{% block body_class %}pagina-login{% endblock %}
+{% block contenido %}
+<div class="aurora">
+    <div class="blob blob-azul"></div>
+    <div class="blob blob-verde"></div>
+    <div class="blob blob-dorado"></div>
+</div>
+
+<div class="decoracion-biblioteca">
+    <span class="item-flotante i1">📚</span>
+    <span class="item-flotante i2">🔖</span>
+    <span class="item-flotante i3">📖</span>
+    <span class="item-flotante i4">✏️</span>
+    <span class="item-flotante i5">📕</span>
+    <span class="item-flotante i6">📗</span>
+    <span class="item-flotante i7">📘</span>
+    <span class="item-flotante i8">🖋️</span>
+</div>
+
+<div class="estanteria"></div>
+
+<div class="layout-auth">
+    <div class="escena-libro">
+        <div>
+            <div class="libro-flotante">
+                <div class="libro-3d">
+                    <div class="paginas"></div>
+                    <div class="lomo"></div>
+                    <div class="tapa-frontal">📖</div>
+                </div>
+            </div>
+            <p class="subtitulo">Biblioteca Virtual Escolar</p>
+        </div>
+    </div>
+
+    <div class="panel-login">
+    <h1>Iniciar sesión</h1>
+    <form method="post" class="formulario" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+</div>
+
+<script>
+document.addEventListener('mousemove', function (e) {
+    var xPct = (e.clientX / window.innerWidth) * 100;
+    var yPct = (e.clientY / window.innerHeight) * 100;
+    document.body.style.setProperty('--mx', xPct + '%');
+    document.body.style.setProperty('--my', yPct + '%');
+
+    var nx = (e.clientX / window.innerWidth - 0.5) * 2;
+    var ny = (e.clientY / window.innerHeight - 0.5) * 2;
+    document.documentElement.style.setProperty('--tex-x', (nx * -10) + 'px');
+    document.documentElement.style.setProperty('--tex-y', (ny * -10) + 'px');
+    document.documentElement.style.setProperty('--tilt-y', (nx * 14) + 'deg');
+    document.documentElement.style.setProperty('--tilt-x', (-ny * 10) + 'deg');
+});
+</script>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block titulo %}Estadísticas{% endblock %}
+{% block contenido %}
+<h1>Estadísticas</h1>
+
+<div class="grid-stats">
+    <div class="tarjeta-stat">
+        <span class="stat-numero" data-valor="{{ total_licencias }}">0</span>
+        <span class="stat-etiqueta">Licencias totales</span>
+    </div>
+    {% for estado, cantidad in prestamos_por_estado.items %}
+        <div class="tarjeta-stat">
+            <span class="stat-numero" data-valor="{{ cantidad }}">0</span>
+            <span class="stat-etiqueta">{{ estado|title }}</span>
+        </div>
+    {% endfor %}
+</div>
+
+<h2>Top 5 libros más prestados</h2>
+<div class="ranking-libros">
+    {% for libro in top_libros %}
+        <div class="fila-ranking">
+            <span class="puesto-ranking">{{ forloop.counter }}</span>
+            <div class="portada-mini">
+                {% if libro.portada %}
+                    <img src="{{ libro.portada.url }}" alt="">
+                {% else %}
+                    <span>📖</span>
+                {% endif %}
+            </div>
+            <span class="titulo-ranking">{{ libro.titulo }}</span>
+        </div>
+    {% empty %}
+        <p class="vacio-prestamos">Todavía no hay datos suficientes.</p>
+    {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.stat-numero').forEach(function (el) {
+        var destino = parseInt(el.dataset.valor, 10) || 0;
+        var duracion = 800;
+        var tiempoInicio = null;
+
+        function paso(marca) {
+            if (!tiempoInicio) tiempoInicio = marca;
+            var progreso = Math.min((marca - tiempoInicio) / duracion, 1);
+            el.textContent = Math.floor(progreso * destino);
+            if (progreso < 1) {
+                requestAnimationFrame(paso);
+            } else {
+                el.textContent = destino;
+            }
+        }
+        requestAnimationFrame(paso);
+    });
+});
+</script>
+{% endblock %}

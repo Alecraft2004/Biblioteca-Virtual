@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ accion }} libro{% endblock %}
+{% block body_class %}pagina-formulario{% endblock %}
+{% block contenido %}
+<div class="tarjeta-formulario">
+    <h1>{{ accion }} libro</h1>
+    <form method="post" enctype="multipart/form-data" class="formulario-libro">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="grid-formulario">
+            <div class="columna-portada">
+                <label class="etiqueta-portada">Portada</label>
+                <div class="preview-portada">
+                    {% if form.instance.portada %}
+                        <img src="{{ form.instance.portada.url }}" id="img-preview" alt="Portada actual">
+                    {% else %}
+                        <span id="img-preview-vacio">📖<br>Sin portada</span>
+                        <img src="" id="img-preview" alt="Vista previa" style="display:none;">
+                    {% endif %}
+                </div>
+                {{ form.portada }}
+                {{ form.portada.errors }}
+            </div>
+
+            <div class="columna-datos">
+                <div class="campo">
+                    <label for="{{ form.titulo.id_for_label }}">Título</label>
+                    {{ form.titulo }}
+                    {{ form.titulo.errors }}
+                </div>
+                <div class="campo">
+                    <label for="{{ form.autor.id_for_label }}">Autor</label>
+                    {{ form.autor }}
+                    {{ form.autor.errors }}
+                </div>
+                <div class="fila-dos">
+                    <div class="campo">
+                        <label for="{{ form.categoria.id_for_label }}">Categoría</label>
+                        {{ form.categoria }}
+                        {{ form.categoria.errors }}
+                    </div>
+                    <div class="campo">
+                        <label for="{{ form.nivel.id_for_label }}">Nivel</label>
+                        {{ form.nivel }}
+                        {{ form.nivel.errors }}
+                    </div>
+                </div>
+                <div class="campo">
+                    <label for="{{ form.sinopsis.id_for_label }}">Sinopsis</label>
+                    {{ form.sinopsis }}
+                    {{ form.sinopsis.errors }}
+                </div>
+                <div class="campo">
+                    <label for="{{ form.archivo.id_for_label }}">Archivo (PDF/ePub)</label>
+                    {{ form.archivo }}
+                    {{ form.archivo.errors }}
+                </div>
+                <div class="fila-dos">
+                    <div class="campo">
+                        <label for="{{ form.licencias_totales.id_for_label }}">Licencias totales</label>
+                        {{ form.licencias_totales }}
+                        {{ form.licencias_totales.errors }}
+                    </div>
+                    <div class="campo campo-checkbox">
+                        <label for="{{ form.activo.id_for_label }}">{{ form.activo }} Activo</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="acciones-formulario">
+            <button type="submit">Guardar</button>
+            <a href="{% url 'catalogo:lista' %}" class="btn btn-secundario">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var input = document.getElementById('{{ form.portada.id_for_label }}');
+    var img = document.getElementById('img-preview');
+    var vacio = document.getElementById('img-preview-vacio');
+    if (input) {
+        input.addEventListener('change', function (e) {
+            var archivo = e.target.files[0];
+            if (archivo) {
+                img.src = URL.createObjectURL(archivo);
+                img.style.display = 'block';
+                if (vacio) { vacio.style.display = 'none'; }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

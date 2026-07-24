@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block titulo %}Mis préstamos{% endblock %}
+{% block contenido %}
+<h1>Mis préstamos</h1>
+
+<div class="grid-prestamos">
+    {% for p in prestamos %}
+        <div class="tarjeta-prestamo estado-{{ p.estado|lower }}">
+            <div class="portada-mini">
+                {% if p.libro.portada %}
+                    <img src="{{ p.libro.portada.url }}" alt="">
+                {% else %}
+                    <span>📖</span>
+                {% endif %}
+            </div>
+            <div class="info-prestamo">
+                <h3>{{ p.libro.titulo }}</h3>
+                <p class="autor-prestamo">{{ p.libro.autor }}</p>
+                <p class="fecha-prestamo">Solicitado el {{ p.fecha_solicitud|date:"d/m/Y" }}</p>
+            </div>
+            <span class="badge-estado">{{ p.get_estado_display }}</span>
+        </div>
+    {% empty %}
+        <p class="vacio-prestamos">Todavía no solicitaste ningún préstamo. <a href="{% url 'catalogo:lista' %}">Explorá el catálogo</a>.</p>
+    {% endfor %}
+</div>
+{% endblock %}

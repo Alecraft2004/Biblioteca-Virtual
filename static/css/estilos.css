@@ -1,0 +1,1150 @@
+/* Autor: Alejandro */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    line-height: 1.5;
+}
+
+a {
+    color: #0071e3;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+}
+h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 32px 0 12px;
+}
+
+/* Barra de navegación */
+.navbar {
+    background: #1c1c1e;
+    border: none;
+    border-radius: 980px;
+    padding: 8px 8px 8px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: nowrap;
+    position: sticky;
+    top: 16px;
+    z-index: 10;
+    margin: 16px auto 0;
+    max-width: 1040px;
+    width: calc(100% - 32px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+    animation: navbar-entrada 0.5s ease;
+}
+@keyframes navbar-entrada {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.navbar-marca {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+}
+.marca-icono {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.navbar-perfil {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: auto;
+    padding-left: 18px;
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+.perfil-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.perfil-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0071e3, #34c759);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.perfil-texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+.perfil-texto strong {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.perfil-rol {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #4dabf7;
+    background: rgba(0, 113, 227, 0.18);
+    padding: 2px 8px;
+    border-radius: 980px;
+    white-space: nowrap;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+}
+.navbar-links a {
+    position: relative;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 980px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    white-space: nowrap;
+}
+.navbar-links a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.navbar-accion {
+    margin: 0;
+    flex-shrink: 0;
+}
+.navbar-accion button {
+    background: #ff3b30;
+    color: #ffffff;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 980px;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.navbar-accion button:hover {
+    background: #e0342a;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 59, 48, 0.35);
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+/* Mensajes (success/warning/error de Django) */
+.mensajes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    max-width: 360px;
+}
+.mensajes li {
+    position: relative;
+    padding: 14px 18px 14px 46px;
+    border-radius: 14px;
+    font-size: 14px;
+    background: #1c1c1e;
+    color: #ffffff;
+    border-left: 4px solid #0071e3;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    animation: mensaje-entrada 0.35s ease;
+}
+@keyframes mensaje-entrada {
+    from { opacity: 0; transform: translateX(16px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+.mensajes li::before {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    content: "ℹ️";
+}
+.mensajes li.success { border-left-color: #34c759; }
+.mensajes li.success::before { content: "✅"; }
+.mensajes li.warning { border-left-color: #ffb020; }
+.mensajes li.warning::before { content: "⚠️"; }
+.mensajes li.error { border-left-color: #ff3b30; }
+.mensajes li.error::before { content: "⛔"; }
+
+/* Tarjetas / listas */
+.lista-tarjetas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.lista-tarjetas li {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.lista-tarjetas .info {
+    font-size: 15px;
+}
+.lista-tarjetas .acciones {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Botones tipo píldora */
+.btn, button, input[type="submit"] {
+    display: inline-block;
+    background: #0071e3;
+    color: #ffffff;
+    border: none;
+    border-radius: 980px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.btn:hover, button:hover, input[type="submit"]:hover {
+    background: #0077ed;
+    text-decoration: none;
+}
+.btn-secundario {
+    background: #ffffff;
+    color: #0071e3;
+    border: 1px solid #0071e3;
+}
+.btn-secundario:hover {
+    background: #f0f7ff;
+}
+.btn-peligro {
+    background: #ff3b30;
+}
+.btn-peligro:hover {
+    background: #e0342a;
+}
+
+/* Formularios */
+form.formulario {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 520px;
+}
+.buscador {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 28px;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 980px;
+    padding: 6px 6px 6px 20px;
+    max-width: 640px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    animation: buscador-entrada 0.4s ease;
+    flex-wrap: nowrap;
+}
+@keyframes buscador-entrada {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.buscador:focus-within {
+    border-color: #0071e3;
+    box-shadow: 0 4px 20px rgba(0, 113, 227, 0.15);
+}
+.buscador::before {
+    content: "🔍";
+    font-size: 14px;
+    margin-right: 10px;
+    opacity: 0.55;
+    flex-shrink: 0;
+}
+.buscador input[type="text"] {
+    border: none;
+    padding: 10px 0;
+    flex: 1;
+    min-width: 120px;
+    background: transparent;
+    border-radius: 0;
+}
+.buscador input[type="text"]:focus {
+    outline: none;
+}
+.buscador select {
+    border: none;
+    border-left: 1px solid #e5e5ea;
+    background-color: transparent;
+    padding: 10px 28px 10px 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    font-size: 13px;
+    color: #1d1d1f;
+    cursor: pointer;
+    border-radius: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236e6e73'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 14px;
+}
+.buscador select:focus {
+    outline: none;
+}
+.buscador button {
+    margin-left: 6px;
+    flex-shrink: 0;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+.buscador button:hover {
+    transform: translateY(-1px);
+}
+input[type="text"], input[type="password"], input[type="email"], select, textarea {
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #ffffff;
+}
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #0071e3;
+    outline-offset: 1px;
+}
+p {
+    margin: 8px 0;
+}
+label {
+    font-size: 13px;
+    color: #6e6e73;
+    display: block;
+    margin-top: 14px;
+}
+
+/* Layout de login con libro 3D */
+.layout-auth {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+    min-height: 70vh;
+}
+@media (max-width: 700px) {
+    .layout-auth {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+}
+
+.escena-libro {
+    display: flex;
+    justify-content: center;
+    perspective: 1400px;
+}
+
+.libro-flotante {
+    animation: flotar-libro 4s ease-in-out infinite;
+}
+@keyframes flotar-libro {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-16px); }
+}
+
+.libro-3d {
+    position: relative;
+    width: 170px;
+    height: 230px;
+    transform-style: preserve-3d;
+    transform: rotateY(calc(-28deg + var(--tilt-y, 0deg))) rotateX(calc(8deg + var(--tilt-x, 0deg)));
+    transition: transform 0.15s ease-out;
+}
+
+.libro-3d .tapa-frontal {
+    position: absolute;
+    width: 170px;
+    height: 230px;
+    border-radius: 3px 10px 10px 3px;
+    background: linear-gradient(135deg, #0071e3, #34c759);
+    box-shadow: 0 40px 70px rgba(0, 0, 0, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 44px;
+}
+
+.libro-3d .lomo {
+    position: absolute;
+    width: 34px;
+    height: 230px;
+    left: 0;
+    background: #054a8f;
+    transform: rotateY(90deg) translateZ(-17px);
+    border-radius: 3px 0 0 3px;
+}
+
+.libro-3d .paginas {
+    position: absolute;
+    width: 210px;
+    height: 214px;
+    top: 8px;
+    left: 8px;
+    background: repeating-linear-gradient(
+        to bottom,
+        #f5f5f0,
+        #f5f5f0 2px,
+        #e6e6e0 2px,
+        #e6e6e0 3px
+    );
+    transform: rotateY(90deg) translateZ(-160px);
+    transform-origin: left;
+    box-shadow: inset -2px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.escena-libro .subtitulo {
+    text-align: center;
+    color: #6e6e73;
+    font-size: 14px;
+    margin-top: 24px;
+}
+
+.panel-login {
+    max-width: 420px;
+}
+
+/* Página de login: centrada y con fondo interactivo */
+body.pagina-login {
+    min-height: 100vh;
+    margin: 0;
+    background:
+        radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 113, 227, 0.18), transparent 45%),
+        #f5f5f7;
+    transition: background 0.05s linear;
+}
+body.pagina-login .container {
+    max-width: none;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+.layout-auth {
+    max-width: 900px;
+    width: 100%;
+}
+
+/* Textura + temática de biblioteca en el login */
+body.pagina-login {
+    background-color: #f5f5f7;
+    background-image:
+        radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.85), transparent 40%),
+        radial-gradient(420px circle at calc(var(--mx, 50%) + 1.5%) calc(var(--my, 50%) + 1.5%), rgba(0, 0, 0, 0.14), transparent 40%),
+        radial-gradient(650px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 113, 227, 0.16), transparent 45%),
+        radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1.5px);
+    background-size: auto, auto, auto, 24px 24px;
+    background-position: 0 0, 0 0, 0 0, var(--tex-x, 0px) var(--tex-y, 0px);
+    transition: background-position 0.05s linear;
+}
+
+body.pagina-login .formulario {
+    background: #fffdf8;
+    border-color: #e2d9c8;
+}
+
+body.pagina-login .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Libros flotando de fondo, muy sutiles */
+.decoracion-biblioteca {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.item-flotante {
+    position: absolute;
+    font-size: 32px;
+    opacity: 0.14;
+    animation: flotar-ambiente 6s ease-in-out infinite;
+}
+.item-flotante.i1 { top: 12%; left: 8%; animation-delay: 0s; }
+.item-flotante.i2 { top: 78%; left: 14%; animation-delay: 1.2s; font-size: 26px; }
+.item-flotante.i3 { top: 18%; left: 88%; animation-delay: 0.6s; font-size: 30px; }
+.item-flotante.i4 { top: 72%; left: 90%; animation-delay: 1.8s; font-size: 24px; }
+.item-flotante.i5 { top: 45%; left: 4%; animation-delay: 2.4s; font-size: 22px; }
+
+@keyframes flotar-ambiente {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-18px) rotate(6deg); }
+}
+
+/* Aurora animada de fondo */
+.aurora {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+}
+.blob-azul {
+    width: 420px; height: 420px;
+    background: #0071e3;
+    top: -120px; left: -100px;
+    animation: mover-blob-1 22s ease-in-out infinite;
+}
+.blob-verde {
+    width: 380px; height: 380px;
+    background: #34c759;
+    bottom: -130px; right: -90px;
+    animation: mover-blob-2 26s ease-in-out infinite;
+}
+.blob-dorado {
+    width: 320px; height: 320px;
+    background: #e8b64c;
+    top: 35%; right: 8%;
+    animation: mover-blob-3 30s ease-in-out infinite;
+}
+@keyframes mover-blob-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(130px, 90px) scale(1.15); }
+}
+@keyframes mover-blob-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-110px, -70px) scale(1.1); }
+}
+@keyframes mover-blob-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-90px, 60px) scale(0.9); }
+}
+
+/* Estantería de fondo, al pie */
+.estanteria {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    height: 46px;
+    background: repeating-linear-gradient(
+        90deg,
+        #7a4a26 0px, #7a4a26 14px,
+        #9c6b3e 14px, #9c6b3e 26px,
+        #5c3a20 26px, #5c3a20 34px,
+        #b98554 34px, #b98554 50px
+    );
+    opacity: 0.16;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Libros/hojas cayendo suavemente */
+.item-flotante {
+    position: absolute;
+    top: 0;
+    font-size: 26px;
+    opacity: 0;
+    animation-name: caer-flotando;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@keyframes caer-flotando {
+    0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.22; }
+    90%  { opacity: 0.22; }
+    100% { transform: translateY(110vh) translateX(60px) rotate(30deg); opacity: 0; }
+}
+.item-flotante.i1 { left: 6%;  font-size: 30px; animation-duration: 18s; animation-delay: 0s; }
+.item-flotante.i2 { left: 18%; font-size: 22px; animation-duration: 24s; animation-delay: 3s; }
+.item-flotante.i3 { left: 32%; font-size: 26px; animation-duration: 20s; animation-delay: 6s; }
+.item-flotante.i4 { left: 55%; font-size: 24px; animation-duration: 22s; animation-delay: 1.5s; }
+.item-flotante.i5 { left: 68%; font-size: 28px; animation-duration: 26s; animation-delay: 4.5s; }
+.item-flotante.i6 { left: 80%; font-size: 20px; animation-duration: 19s; animation-delay: 2s; }
+.item-flotante.i7 { left: 90%; font-size: 26px; animation-duration: 23s; animation-delay: 5.5s; }
+.item-flotante.i8 { left: 45%; font-size: 22px; animation-duration: 21s; animation-delay: 7s; }
+
+/* Alertas de error de formularios */
+ul.errorlist {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 14px 18px;
+    background: #fdecec;
+    color: #d70015;
+    border: 1px solid #f5b5b0;
+    border-radius: 12px;
+    font-size: 14px;
+}
+ul.errorlist li {
+    margin: 0;
+}
+ul.errorlist li + li {
+    margin-top: 6px;
+}
+ul.errorlist li::before {
+    content: "⚠️  ";
+}
+
+/* Errores debajo de un campo específico, más chicos */
+p ul.errorlist {
+    margin-top: 6px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+input:invalid {
+    box-shadow: none;
+}
+
+/* Grilla de catálogo con portadas */
+.grid-libros {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 24px;
+    margin-top: 8px;
+}
+
+.tarjeta-libro {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tarjeta-libro:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+}
+
+.portada-libro {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    background: #f0f0f2;
+    overflow: hidden;
+}
+.portada-libro img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.portada-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    background: linear-gradient(135deg, #0071e3, #34c759);
+    color: rgba(255, 255, 255, 0.85);
+}
+.badge-nivel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 980px;
+    backdrop-filter: blur(4px);
+}
+
+.info-libro {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+.info-libro h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+}
+.autor-libro {
+    font-size: 13px;
+    color: #6e6e73;
+    margin: 0 0 10px;
+}
+.acciones-libro {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.acciones-libro .btn {
+    padding: 6px 14px;
+    font-size: 12.5px;
+}
+
+/* Página y tarjeta del formulario de libro */
+body.pagina-formulario {
+    background:
+        radial-gradient(800px circle at 100% -10%, rgba(0, 113, 227, 0.08), transparent 50%),
+        radial-gradient(800px circle at 0% 110%, rgba(52, 199, 89, 0.08), transparent 50%),
+        #f5f5f7;
+    min-height: 100vh;
+}
+
+.tarjeta-formulario {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+}
+
+.formulario-libro .grid-formulario {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 28px;
+    margin-top: 20px;
+}
+@media (max-width: 600px) {
+    .formulario-libro .grid-formulario {
+        grid-template-columns: 1fr;
+    }
+}
+
+.columna-portada {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.etiqueta-portada {
+    font-size: 13px;
+    color: #6e6e73;
+}
+.preview-portada {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0071e3, #34c759);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    text-align: center;
+    border: 1px solid #d2d2d7;
+}
+.preview-portada img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.columna-datos {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.campo label {
+    margin-top: 0;
+    font-size: 13px;
+    color: #1d1d1f;
+    font-weight: 500;
+}
+.fila-dos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.campo-checkbox {
+    flex-direction: row;
+    align-items: center;
+}
+.campo-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 400;
+}
+.formulario-libro textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+.formulario-libro input[type="file"] {
+    font-size: 13px;
+    padding: 8px 0;
+}
+.formulario-libro > button[type="submit"] {
+    margin-top: 28px;
+}
+
+.acciones-formulario {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.tarjeta-confirmacion {
+    max-width: 440px;
+    margin: 60px auto 0;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    animation: confirmacion-entrada 0.35s ease;
+}
+@keyframes confirmacion-entrada {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.portada-confirmacion {
+    width: 80px;
+    border-radius: 8px;
+    margin: 0 auto 16px;
+    display: block;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+.icono-alerta {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #fff3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+.tarjeta-confirmacion h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+.texto-confirmacion {
+    color: #6e6e73;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+.acciones-confirmacion {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* Mis préstamos */
+.grid-prestamos {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.tarjeta-prestamo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-left: 4px solid #d2d2d7;
+    border-radius: 16px;
+    padding: 14px 18px;
+    opacity: 0;
+    animation: tarjeta-entrada 0.4s ease forwards;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tarjeta-prestamo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+.grid-prestamos .tarjeta-prestamo:nth-child(1) { animation-delay: 0.03s; }
+.grid-prestamos .tarjeta-prestamo:nth-child(2) { animation-delay: 0.08s; }
+.grid-prestamos .tarjeta-prestamo:nth-child(3) { animation-delay: 0.13s; }
+.grid-prestamos .tarjeta-prestamo:nth-child(4) { animation-delay: 0.18s; }
+.grid-prestamos .tarjeta-prestamo:nth-child(5) { animation-delay: 0.23s; }
+@keyframes tarjeta-entrada {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.tarjeta-prestamo.estado-aprobado  { border-left-color: #34c759; }
+.tarjeta-prestamo.estado-pendiente { border-left-color: #ffb020; }
+.tarjeta-prestamo.estado-rechazado { border-left-color: #ff3b30; }
+.tarjeta-prestamo.estado-devuelto  { border-left-color: #8e8e93; }
+
+.portada-mini {
+    width: 46px;
+    height: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #0071e3, #34c759);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.85);
+}
+.portada-mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-prestamo {
+    flex: 1;
+    min-width: 0;
+}
+.info-prestamo h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px;
+}
+.autor-prestamo {
+    font-size: 13px;
+    color: #6e6e73;
+    margin: 0 0 2px;
+}
+.fecha-prestamo {
+    font-size: 12px;
+    color: #a1a1a6;
+    margin: 0;
+}
+
+.badge-estado {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 5px 12px;
+    border-radius: 980px;
+    background: #f5f5f7;
+    color: #6e6e73;
+}
+.estado-aprobado .badge-estado  { background: #e6f8ed; color: #1c8a3c; }
+.estado-pendiente .badge-estado { background: #fff4e0; color: #935610; }
+.estado-rechazado .badge-estado { background: #fdecec; color: #d70015; }
+.estado-devuelto .badge-estado  { background: #eeeeee; color: #6e6e73; }
+
+.vacio-prestamos {
+    color: #6e6e73;
+    font-size: 14px;
+}
+
+/* Gestionar préstamos */
+.acciones-gestion {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.btn-aprobar {
+    background: #34c759;
+}
+.btn-aprobar:hover {
+    background: #2ba149;
+}
+.tarjeta-prestamo {
+    flex-wrap: wrap;
+}
+
+/* Solicitar préstamo */
+.icono-alerta.icono-azul {
+    background: #eaf4ff;
+}
+.disponibilidad-prestamo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6e6e73;
+    margin-bottom: 24px;
+}
+.punto-disponible {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34c759;
+    display: inline-block;
+}
+
+/* Estadísticas */
+.grid-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 32px;
+}
+.tarjeta-stat {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 0;
+    animation: tarjeta-entrada 0.4s ease forwards;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tarjeta-stat:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+.grid-stats .tarjeta-stat:nth-child(1) { animation-delay: 0.02s; }
+.grid-stats .tarjeta-stat:nth-child(2) { animation-delay: 0.06s; }
+.grid-stats .tarjeta-stat:nth-child(3) { animation-delay: 0.1s; }
+.grid-stats .tarjeta-stat:nth-child(4) { animation-delay: 0.14s; }
+.grid-stats .tarjeta-stat:nth-child(5) { animation-delay: 0.18s; }
+.stat-numero {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0071e3;
+    letter-spacing: -0.02em;
+}
+.stat-etiqueta {
+    font-size: 12px;
+    color: #6e6e73;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.ranking-libros {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.fila-ranking {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 14px;
+    padding: 12px 18px;
+}
+.puesto-ranking {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #f0f7ff;
+    color: #0071e3;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.titulo-ranking {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Animaciones extra de estadísticas */
+.fila-ranking {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.fila-ranking:hover {
+    transform: translateX(4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+.fila-ranking .portada-mini {
+    width: 34px;
+    height: 46px;
+    font-size: 14px;
+}
+
+.etiqueta-rol {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 980px;
+    background: #f0f7ff;
+    color: #0071e3;
+    margin-top: 4px;
+}
+.etiqueta-suspendido {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 980px;
+    background: #fdecec;
+    color: #d70015;
+    margin-top: 4px;
+    margin-left: 6px;
+}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block titulo %}Gestionar préstamos{% endblock %}
+{% block contenido %}
+<h1>Préstamos pendientes</h1>
+
+<div class="grid-prestamos">
+{% for p in prestamos %}
+    <div class="tarjeta-prestamo estado-pendiente">
+        <div class="portada-mini">
+            {% if p.libro.portada %}
+                <img src="{{ p.libro.portada.url }}" alt="">
+            {% else %}
+                <span>📖</span>
+            {% endif %}
+        </div>
+        <div class="info-prestamo">
+            <h3>{{ p.libro.titulo }}</h3>
+            <p class="autor-prestamo">Solicitado por {{ p.usuario }}</p>
+            <p class="fecha-prestamo">{{ p.fecha_solicitud|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div class="acciones-gestion">
+            <form method="post" action="{% url 'prestamos:aprobar' p.id %}">
+                {% csrf_token %}<button type="submit" class="btn-aprobar">✓ Aprobar</button>
+            </form>
+            <form method="post" action="{% url 'prestamos:rechazar' p.id %}">
+                {% csrf_token %}<button type="submit" class="btn-peligro">✕ Rechazar</button>
+            </form>
+        </div>
+    </div>
+{% empty %}
+    <p class="vacio-prestamos">🎉 No hay préstamos pendientes por revisar.</p>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block titulo %}Inicio{% endblock %}
+{% block contenido %}
+<h1>Bienvenido, {{ user.get_full_name|default:user.username }}</h1>
+<p>Tu rol es: {{ user.get_rol_display }}</p>
+<p><a href="{% url 'catalogo:lista' %}" class="btn">Ir al catálogo</a></p>
+{% endblock %}

@@ -3,12 +3,13 @@ Autor: Alejandro
 """
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import ProtectedError
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.usuarios.decoradores import rol_requerido
 from .forms import LibroDigitalForm
 from .models import LibroDigital
+from apps.prestamos.models import PrestamoDigital
 
 
 @login_required
@@ -83,22 +84,26 @@ def editar_libro(request, libro_id):
 def eliminar_libro(request, libro_id):
     """
     Elimina un libro, con pantalla de confirmación previa (GET) y borrado
-    real recién en el POST. Si el libro tiene préstamos asociados, la
-    relación PROTECT en PrestamoDigital.libro lanza ProtectedError en vez
-    de dejar borrar y romper el historial de préstamos.
+    real recién en el POST. Solo se permite si no tiene préstamos en
+    estado APROBADO; en ese caso se elimina el historial del libro y
+    luego el libro mismo.
     """
     libro = get_object_or_404(LibroDigital, pk=libro_id)
     if request.method == 'POST':
         titulo = libro.titulo
-        try:
-            libro.delete()
-            messages.warning(request, f'Libro "{titulo}" eliminado.')
-        except ProtectedError:
+        if libro.prestamos.filter(estado=PrestamoDigital.Estado.APROBADO).exists():
             messages.error(
                 request,
-                f'No se puede eliminar "{titulo}" porque tiene préstamos asociados. '
-                'Gestioná esos préstamos primero.'
+                f'No se puede eliminar "{titulo}" porque todavía tiene préstamos aprobados. '
+                'Devolvé todas las copias primero.'
             )
+            return redirect('catalogo:lista')
+
+        with transaction.atomic():
+            # Ya no hay préstamos activos, así que se puede limpiar el historial del libro.
+            libro.prestamos.all().delete()
+            libro.delete()
+        messages.warning(request, f'Libro "{titulo}" eliminado.')
         return redirect('catalogo:lista')
     return render(request, 'catalogo/confirmar_eliminar.html', {'libro': libro})
 

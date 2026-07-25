@@ -15,7 +15,10 @@
 </form>
 
 {% if user.es_bibliotecario %}
-    <p><a href="{% url 'catalogo:crear' %}" class="btn">+ Cargar nuevo libro</a></p>
+    <div class="acciones-catalogo">
+        <a href="{% url 'catalogo:crear' %}" class="btn">+ Cargar nuevo libro</a>
+        <a href="{% url 'catalogo:inactivos' %}" class="btn btn-secundario">Libros inactivos</a>
+    </div>
 {% endif %}
 
 <div class="grid-libros">

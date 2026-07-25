@@ -33,6 +33,88 @@ h2 {
     margin: 32px 0 12px;
 }
 
+.acciones-estadisticas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 10px 0 20px;
+}
+
+.acciones-catalogo {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 10px 0 18px;
+}
+
+.texto-ayuda {
+    color: #6e6e73;
+    margin-bottom: 18px;
+}
+
+.lista-inactivos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tarjeta-inactivo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 18px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.mini-portada-inactiva {
+    width: 64px;
+    height: 88px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f5f5f7;
+    border: 1px solid #d2d2d7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #6e6e73;
+    font-size: 28px;
+}
+
+.mini-portada-inactiva img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.inactivo-info h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+}
+
+.inactivo-info p {
+    margin: 0 0 8px;
+    color: #6e6e73;
+}
+
+.estado-inactivo {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #b54708;
+    background: #fff4e5;
+    border: 1px solid #ffd6a6;
+    border-radius: 999px;
+    padding: 4px 10px;
+}
+
 /* Barra de navegación */
 .navbar {
     background: #1c1c1e;

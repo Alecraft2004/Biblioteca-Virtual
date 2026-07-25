@@ -15,4 +15,6 @@ urlpatterns = [
     path('aprobar/<int:prestamo_id>/', views.aprobar_prestamo, name='aprobar'),
     path('rechazar/<int:prestamo_id>/', views.rechazar_prestamo, name='rechazar'),
     path('estadisticas/', views.estadisticas, name='estadisticas'),
+    path('estadisticas/exportar/excel/', views.exportar_estadisticas_excel, name='reporte_excel'),
+    path('estadisticas/exportar/pdf/', views.exportar_estadisticas_pdf, name='reporte_pdf'),
 ]

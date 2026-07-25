@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block titulo %}Libros inactivos{% endblock %}
+{% block contenido %}
+<h1>Libros inactivos</h1>
+
+<p class="texto-ayuda">Desde aquí puedes reactivar manualmente cualquier libro que haya sido deshabilitado al editarlo.</p>
+
+<div class="lista-inactivos">
+    {% for libro in libros %}
+        <div class="tarjeta-inactivo">
+            <div class="mini-portada-inactiva">
+                {% if libro.portada %}
+                    <img src="{{ libro.portada.url }}" alt="Portada de {{ libro.titulo }}">
+                {% else %}
+                    <span>📖</span>
+                {% endif %}
+            </div>
+            <div class="inactivo-info">
+                <h3>{{ libro.titulo }}</h3>
+                <p>{{ libro.autor }}</p>
+                <span class="estado-inactivo">Inactivo</span>
+            </div>
+            <form method="post" action="{% url 'catalogo:activar' libro.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn">Activar</button>
+            </form>
+        </div>
+    {% empty %}
+        <p class="vacio-prestamos">No hay libros inactivos en este momento.</p>
+    {% endfor %}
+</div>
+{% endblock %}

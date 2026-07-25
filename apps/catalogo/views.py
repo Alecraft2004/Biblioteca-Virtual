@@ -40,6 +40,13 @@ def lista_libros(request):
 
 
 @rol_requerido('BIBLIOTECARIO')
+def libros_inactivos(request):
+    """Muestra todos los libros desactivados para poder reactivarlos manualmente."""
+    libros = LibroDigital.objects.filter(activo=False)
+    return render(request, 'catalogo/inactivos.html', {'libros': libros})
+
+
+@rol_requerido('BIBLIOTECARIO')
 def crear_libro(request):
     """Alta de un nuevo libro digital. Solo accesible por el bibliotecario."""
     if request.method == 'POST':
@@ -94,3 +101,14 @@ def eliminar_libro(request, libro_id):
             )
         return redirect('catalogo:lista')
     return render(request, 'catalogo/confirmar_eliminar.html', {'libro': libro})
+
+
+@rol_requerido('BIBLIOTECARIO')
+def activar_libro(request, libro_id):
+    """Reactiva un libro deshabilitado para que vuelva a aparecer en el catálogo."""
+    libro = get_object_or_404(LibroDigital, pk=libro_id)
+    if request.method == 'POST':
+        libro.activo = True
+        libro.save(update_fields=['activo'])
+        messages.success(request, f'Libro "{libro.titulo}" activado correctamente.')
+    return redirect('catalogo:inactivos')

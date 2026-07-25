@@ -3,6 +3,12 @@
 {% block contenido %}
 <h1>Estadísticas</h1>
 
+<!-- Acciones de exportacion para el bibliotecario -->
+<div class="acciones-estadisticas">
+    <a class="btn" href="{% url 'prestamos:reporte_excel' %}">Exportar Excel</a>
+    <a class="btn btn-secundario" href="{% url 'prestamos:reporte_pdf' %}">Exportar PDF</a>
+</div>
+
 <div class="grid-stats">
     <div class="tarjeta-stat">
         <span class="stat-numero" data-valor="{{ total_licencias }}">0</span>

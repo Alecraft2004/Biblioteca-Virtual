@@ -32,6 +32,11 @@
             <div class="info-libro">
                 <h3>{{ libro.titulo }}</h3>
                 <p class="autor-libro">{{ libro.autor }}</p>
+                {% if libro.licencias_disponibles > 0 %}
+                    <p class="licencias-libro disponible">{{ libro.licencias_disponibles }} de {{ libro.licencias_totales }} disponibles</p>
+                {% else %}
+                    <p class="licencias-libro agotado">Sin licencias disponibles</p>
+                {% endif %}
                 <div class="acciones-libro">
                     <a href="{% url 'prestamos:solicitar' libro.id %}" class="btn">Solicitar</a>
                     {% if user.es_bibliotecario %}

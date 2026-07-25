@@ -18,6 +18,13 @@
                 <p class="autor-prestamo">{{ p.libro.autor }}</p>
                 <p class="fecha-prestamo">Solicitado el {{ p.fecha_solicitud|date:"d/m/Y" }}</p>
             </div>
+            {% if p.estado == 'APROBADO' %}
+                <a href="{% url 'prestamos:leer' p.id %}" class="btn">Leer</a>
+                <form method="post" action="{% url 'prestamos:devolver' p.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-secundario">Devolver</button>
+                </form>
+            {% endif %}
             <span class="badge-estado">{{ p.get_estado_display }}</span>
         </div>
     {% empty %}

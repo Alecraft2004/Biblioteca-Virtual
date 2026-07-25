@@ -13,7 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# Se leen desde el archivo .env con python-decouple, así la contraseña
+# y la clave secreta nunca quedan escritas en el código fuente.
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -24,6 +25,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# Apps propias del proyecto, agregadas al final de las apps de Django.
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,6 +74,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Conexión a PostgreSQL, con los datos también tomados de .env.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -83,7 +86,10 @@ DATABASES = {
     }
 }
 
+# Le dice a Django que use nuestro modelo Usuario (con roles) en vez
+# del modelo de usuario por defecto. Debe ir antes de la primera migración.
 AUTH_USER_MODEL = 'usuarios.Usuario'
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -126,3 +132,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'login'
+
+
+# Permite mostrar contenido propio (como el PDF del libro) dentro de un
+# <iframe/embed> del mismo sitio, sin abrir la puerta a otros sitios externos.
+X_FRAME_OPTIONS = 'SAMEORIGIN'

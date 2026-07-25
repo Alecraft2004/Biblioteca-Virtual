@@ -13,19 +13,20 @@ def libros_por_nivel(libros, nivel):
 
 
 def titulos(libros):
-    """Devuelve solo los títulos, usando map en vez de un for."""
+    """Devuelve solo los títulos, usando map en vez de un for explícito."""
     return list(map(lambda libro: libro.titulo, libros))
 
 
 def total_licencias(libros):
-    """Suma total de licencias usando reduce (programación funcional clásica)."""
+    """Suma el total de licencias con reduce, el ejemplo clásico de programación funcional."""
     return reduce(lambda acumulado, libro: acumulado + libro.licencias_totales, libros, 0)
 
 
 def contar_prestamos_por_estado(prestamos):
     """
-    Agrupa préstamos por estado sin loops explícitos, combinando
-    comprehensions (map/filter implícito) con reduce.
+    Agrupa préstamos por estado sin loops explícitos (for/while), combinando
+    una comprehension de set (estados únicos) con una comprehension de dict
+    que cuenta cuántos préstamos hay de cada estado.
     """
     estados = {p.estado for p in prestamos}
     return {
@@ -37,7 +38,9 @@ def contar_prestamos_por_estado(prestamos):
 def libros_mas_prestados(libros, top=5):
     """
     Ordena libros por cantidad de préstamos aprobados (de mayor a menor)
-    usando 'sorted' con una función clave (estilo funcional), sin mutar la lista original.
+    usando 'sorted' con una función 'key' (estilo funcional: se le pasa
+    una función que dice cómo comparar, en vez de escribir la lógica de
+    ordenamiento a mano). No modifica la lista 'libros' original.
     """
     return sorted(
         libros,

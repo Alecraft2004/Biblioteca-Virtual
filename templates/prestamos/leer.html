@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ prestamo.libro.titulo }}{% endblock %}
+{% block contenido %}
+<div class="detalle-libro">
+    <div class="detalle-libro-header">
+        <div class="portada-detalle">
+            {% if prestamo.libro.portada %}
+                <img src="{{ prestamo.libro.portada.url }}" alt="">
+            {% else %}
+                <div class="portada-placeholder">📖</div>
+            {% endif %}
+        </div>
+        <div class="detalle-libro-info">
+            <h1>{{ prestamo.libro.titulo }}</h1>
+            <p class="autor-libro">{{ prestamo.libro.autor }} · {{ prestamo.libro.get_nivel_display }}</p>
+            <p class="sinopsis-detalle">{{ prestamo.libro.sinopsis|default:"Sin sinopsis disponible." }}</p>
+            {% if prestamo.libro.archivo %}
+                <a href="{{ prestamo.libro.archivo.url }}" target="_blank" class="btn">Abrir en pestaña nueva</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if prestamo.libro.archivo %}
+        <div class="visor-archivo">
+            <embed src="{{ prestamo.libro.archivo.url }}" type="application/pdf" title="Lector de {{ prestamo.libro.titulo }}">
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

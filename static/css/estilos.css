@@ -1,4 +1,4 @@
-/* Autor: Alejandro */
+/* Autor: Steve y Alejandro */
 
 * {
     box-sizing: border-box;
@@ -41,13 +41,13 @@ h2 {
     padding: 8px 8px 8px 20px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 10px;
     flex-wrap: nowrap;
     position: sticky;
     top: 16px;
     z-index: 10;
     margin: 16px auto 0;
-    max-width: 1040px;
+    max-width: 1160px;
     width: calc(100% - 32px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
     animation: navbar-entrada 0.5s ease;
@@ -136,8 +136,8 @@ h2 {
 .navbar-links a {
     position: relative;
     color: rgba(255, 255, 255, 0.82);
-    font-size: 14px;
-    padding: 8px 14px;
+    font-size: 13px;
+    padding: 7px 11px;
     border-radius: 980px;
     transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
     white-space: nowrap;
@@ -1147,4 +1147,66 @@ body.pagina-formulario {
     color: #d70015;
     margin-top: 4px;
     margin-left: 6px;
+}
+
+.licencias-libro {
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0 0 10px;
+}
+.licencias-libro.disponible {
+    color: #1c8a3c;
+}
+.licencias-libro.agotado {
+    color: #d70015;
+}
+
+.detalle-libro {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.detalle-libro-header {
+    display: flex;
+    gap: 24px;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 20px;
+    padding: 24px;
+    flex-wrap: wrap;
+}
+.portada-detalle {
+    width: 140px;
+    flex-shrink: 0;
+    aspect-ratio: 2 / 3;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.portada-detalle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.detalle-libro-info {
+    flex: 1;
+    min-width: 220px;
+}
+.sinopsis-detalle {
+    color: #444444;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 12px 0 20px;
+}
+.visor-archivo {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 70vh;
+}
+.visor-archivo embed {
+    width: 100%;
+    height: 100%;
+    border: none;
 }

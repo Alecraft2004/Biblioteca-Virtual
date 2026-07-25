@@ -1,5 +1,5 @@
 """
-Autor: Alejandro
+Autor: Steve
 """
 from django.contrib import admin
 from .models import PrestamoDigital

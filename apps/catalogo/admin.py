@@ -1,4 +1,3 @@
-# Register your models here.
 """
 Autor: Alejandro
 """
@@ -14,6 +13,7 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 @admin.register(LibroDigital)
 class LibroDigitalAdmin(admin.ModelAdmin):
+    # Columnas del listado y filtros/búsqueda disponibles en /admin.
     list_display = ('titulo', 'autor', 'categoria', 'nivel', 'licencias_totales', 'activo')
     list_filter = ('categoria', 'nivel', 'activo')
     search_fields = ('titulo', 'autor')

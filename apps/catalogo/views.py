@@ -3,27 +3,34 @@ Autor: Alejandro
 """
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import ProtectedError
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.usuarios.decoradores import rol_requerido
 from .forms import LibroDigitalForm
 from .models import LibroDigital
-from django.db.models import ProtectedError
 
 
 @login_required
 def lista_libros(request):
+    """
+    Catálogo visible para cualquier usuario logueado. Soporta búsqueda
+    por título/autor y filtro por nivel educativo vía parámetros GET
+    (query string), por eso no hace falta un formulario POST acá.
+    """
     libros = LibroDigital.objects.filter(activo=True)
 
     query = request.GET.get('q', '').strip()
     nivel = request.GET.get('nivel', '').strip()
 
     if query:
+        # OR entre título y autor: alcanza con que coincida uno de los dos.
         libros = libros.filter(titulo__icontains=query) | libros.filter(autor__icontains=query)
     if nivel:
         libros = libros.filter(nivel=nivel)
 
     contexto = {
+        # distinct() evita duplicados cuando un libro matchea por título Y autor.
         'libros': libros.distinct(),
         'query': query,
         'nivel': nivel,
@@ -34,9 +41,12 @@ def lista_libros(request):
 
 @rol_requerido('BIBLIOTECARIO')
 def crear_libro(request):
+    """Alta de un nuevo libro digital. Solo accesible por el bibliotecario."""
     if request.method == 'POST':
         form = LibroDigitalForm(request.POST, request.FILES)
         if form.is_valid():
+            # commit=False: guarda el objeto en memoria sin tocar la BD
+            # todavía, para poder completar 'subido_por' antes de guardar.
             libro = form.save(commit=False)
             libro.subido_por = request.user
             libro.save()
@@ -49,6 +59,7 @@ def crear_libro(request):
 
 @rol_requerido('BIBLIOTECARIO')
 def editar_libro(request, libro_id):
+    """Modifica los datos de un libro ya cargado."""
     libro = get_object_or_404(LibroDigital, pk=libro_id)
     if request.method == 'POST':
         form = LibroDigitalForm(request.POST, request.FILES, instance=libro)
@@ -63,6 +74,12 @@ def editar_libro(request, libro_id):
 
 @rol_requerido('BIBLIOTECARIO')
 def eliminar_libro(request, libro_id):
+    """
+    Elimina un libro, con pantalla de confirmación previa (GET) y borrado
+    real recién en el POST. Si el libro tiene préstamos asociados, la
+    relación PROTECT en PrestamoDigital.libro lanza ProtectedError en vez
+    de dejar borrar y romper el historial de préstamos.
+    """
     libro = get_object_or_404(LibroDigital, pk=libro_id)
     if request.method == 'POST':
         titulo = libro.titulo
